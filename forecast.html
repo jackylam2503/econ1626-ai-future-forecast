@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI & The Supermarket Industry | ECON1626</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a08;
+      --surface: #111110;
+      --border: #2a2a26;
+      --accent: #c8f060;
+      --accent-dim: #8aab30;
+      --text: #e8e8e0;
+      --text-muted: #888880;
+      --heading-font: 'Playfair Display', Georgia, serif;
+      --body-font: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body-font);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,10,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 56px;
+    }
+
+    nav .logo {
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: var(--heading-font);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .thesis-box {
+      border-left: 3px solid var(--accent);
+      padding: 1.25rem 1.75rem;
+      background: var(--surface);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .meta {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-dim);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-family: var(--heading-font);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    h3 {
+      font-family: var(--heading-font);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text);
+    }
+
+    p {
+      color: #c8c8c0;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── SCENARIO GRID ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+
+    .scenario-card.upside { border-top: 3px solid #60f090; }
+    .scenario-card.baseline { border-top: 3px solid var(--accent); }
+    .scenario-card.downside { border-top: 3px solid #f06060; }
+
+    .scenario-card h4 {
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* ── SCROLL FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">AI × Supermarkets 2027</div>
+    <ul>
+      <li><a href="#channels">Mechanisms</a></li>
+      <li><a href="#scenarios">Scenarios</a></li>
+      <li><a href="#policy">Policy</a></li>
+      <li><a href="#methods">Methods</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO / THESIS -->
+  <div id="hero">
+    <p class="eyebrow">ECON1626 · AI Economic Forecast · 2025</p>
+    <h1>The <span>Algorithmic</span> Supermarket</h1>
+    <div class="thesis-box">
+      [Thesis]
+    </div>
+    <p class="meta">Jacky &nbsp;|&nbsp; RMIT University &nbsp;|&nbsp; ECON1626 Assessment 3</p>
+  </div>
+
+  <!-- SECTION 1: CAPABILITIES → ECONOMIC CHANNELS -->
+  <section id="channels" class="fade-in">
+    <p class="section-label">Section 01</p>
+    <h2>Capabilities → Economic Channels</h2>
+    <p>[Introduction]</p>
+
+    <h3>1.1 The Customer Discovery Shift</h3>
+    <p>[Content]</p>
+
+    <h3>1.2 Predictive Shopping & Agentic Commerce</h3>
+    <p>[Content]</p>
+
+    <h3>1.3 Operations & Supply Chain Efficiency</h3>
+    <p>[Content]</p>
+
+    <h3>1.4 Labour & Employment Effects</h3>
+    <p>[Content]</p>
+
+    <h3>1.5 Market Structure & Concentration</h3>
+    <p>[Content]</p>
+  </section>
+
+  <!-- SECTION 2: SCENARIOS -->
+  <section id="scenarios" class="fade-in">
+    <p class="section-label">Section 02</p>
+    <h2>Scenarios: 2027–2030</h2>
+    <p>[Introduction]</p>
+
+    <div class="scenario-grid">
+      <div class="scenario-card upside">
+        <h4>↑ Upside</h4>
+      </div>
+      <div class="scenario-card baseline">
+        <h4>→ Baseline</h4>
+      </div>
+      <div class="scenario-card downside">
+        <h4>↓ Downside</h4>
+      </div>
+    </div>
+
+    <h3>2.1 Upside Scenario</h3>
+    <p>[Content]</p>
+
+    <h3>2.2 Baseline Scenario</h3>
+    <p>[Content]</p>
+
+    <h3>2.3 Downside Scenario</h3>
+    <p>[Content]</p>
+  </section>
+
+  <!-- SECTION 3: POLICY PLAYBOOK -->
+  <section id="policy" class="fade-in">
+    <p class="section-label">Section 03</p>
+    <h2>Policy Playbook</h2>
+    <p>[Introduction]</p>
+  </section>
+
+  <!-- SECTION 4: METHODS & DATA -->
+  <section id="methods" class="fade-in">
+    <p class="section-label">Section 04</p>
+    <h2>Methods, Data & Limitations</h2>
+
+    <h3>4.1 Data Sources</h3>
+
+    <h3>4.2 AI Tooling Disclosure</h3>
+
+    <h3>4.3 Assumptions</h3>
+
+    <h3>4.4 Limitations & Uncertainty</h3>
+  </section>
+
+  <!-- SECTION 5: REFERENCES -->
+  <section id="references" class="fade-in">
+    <p class="section-label">Section 05</p>
+    <h2>References & Attributions</h2>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>ECON1626 · Assessment 3 · RMIT University · 2025 &nbsp;|&nbsp; Jacky</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
