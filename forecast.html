@@ -559,6 +559,67 @@
       margin-top: 0.75rem;
       font-style: italic;
     }
+
+    /* ── ACCORDION ── */
+    .accordion {
+      margin: 1rem 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      width: 100%;
+      background: var(--surface);
+      border: none;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--heading-font);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover { background: #1a1a18; }
+
+    .accordion-header.active { color: var(--accent); }
+
+    .accordion-arrow {
+      font-size: 0.85rem;
+      transition: transform 0.3s ease;
+      color: var(--text-muted);
+    }
+
+    .accordion-header.active .accordion-arrow {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 1.5rem;
+      background: var(--bg);
+    }
+
+    .accordion-body.open {
+      max-height: 600px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .accordion-body p {
+      margin-bottom: 1rem;
+    }
+
+    .accordion-body p:last-child {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -814,18 +875,49 @@
       });
     </script>
     
-    <h3>2.1 Upside Scenario</h3>
-    <p>Within an upside scenario, AI adoption across Australia's supermarket industry is rapid, well managed, and broadly accessible. It will begin with Coles and Woolworths leading the charge, but it will also be widely affordable to smaller independent grocers to minimise the concentration of the market. Areas like productivity are improved, forecasting becomes more accurate with fewer errors, the supply chain tightens, and waste is significantly reduced. In light of these savings, it can reflect onto consumers through lower prices and improving their shopping experience especially at a time when the cost of living remains a key concern for many Australians.</p>
-    <p>Furthermore, the government and industry will move together. This will mean proactive investment into reskilling programs so that workers displaced by AI can transition into higher value positions. The ACCC will also be actively monitoring the algorithms, keeping the competition alive. By 2030, there will be a full transformation of the industry, depicting how the supermarket sector can deliver more efficiency and responsiveness when policy can keep pace with the growth of technology.</p>
+   <div class="accordion">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        2.1 Upside Scenario <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        <p>Within an upside scenario, AI adoption across Australia's supermarket industry is rapid, well managed, and broadly accessible. It will begin with Coles and Woolworths leading the charge, but it will also be widely affordable to smaller independent grocers to minimise the concentration of the market. Areas like productivity are improved, forecasting becomes more accurate with fewer errors, the supply chain tightens, and waste is significantly reduced. In light of these savings, it can reflect onto consumers through lower prices and improving their shopping experience especially at a time when the cost of living remains a key concern for many Australians.</p>
+        <p>Furthermore, the government and industry will move together. This will mean proactive investment into reskilling programs so that workers displaced by AI can transition into higher value positions. The ACCC will also be actively monitoring the algorithms, keeping the competition alive. By 2030, there will be a full transformation of the industry, depicting how the supermarket sector can deliver more efficiency and responsiveness when policy can keep pace with the growth of technology.</p>
+      </div>
+    </div>
 
-    <h3>2.2 Baseline Scenario</h3>
-    <p>Within a baseline scenario, AI adoption will happen but will proceed unevenly. Coles and Woolworths will still be leading our industry, investing heavily, which will widen the gap between them and smaller independent grocers. Smaller grocers inevitably lack the capital needed to fund AI research and to properly roll out changes. The reality will be that productivity gains are indeed real, however, they will be only evident to the duopoly, rather than the broader industry.</p>
-    <p>Some labour displacements will occur, especially in routine roles, however, there will not be any major reskilling effort, ultimately, leaving those workers behind. The ACCC will monitor the market, but does not intervene proactively to minimise further concentration of the duopoly. Policy will catch up after the fact instead of ahead of it.</p>
-    <p>Consumers will also experience mixed results, shopping will become more convenient and personalised, however, the pricing power will lay firmly with Coles and Woolworths. By 2030, Australia's supermarket industry will look better in terms of efficiency and productivity, however, it will also be more concentrated, offering less alternatives for consumers and suppliers.</p>
+    <div class="accordion">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        2.2 Baseline Scenario <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        <p>Within a baseline scenario, AI adoption will happen but will proceed unevenly. Coles and Woolworths will still be leading our industry, investing heavily, which will widen the gap between them and smaller independent grocers. Smaller grocers inevitably lack the capital needed to fund AI research and to properly roll out changes. The reality will be that productivity gains are indeed real, however, they will be only evident to the duopoly, rather than the broader industry.</p>
+        <p>Some labour displacements will occur, especially in routine roles, however, there will not be any major reskilling effort, ultimately, leaving those workers behind. The ACCC will monitor the market, but does not intervene proactively to minimise further concentration of the duopoly. Policy will catch up after the fact instead of ahead of it.</p>
+        <p>Consumers will also experience mixed results, shopping will become more convenient and personalised, however, the pricing power will lay firmly with Coles and Woolworths. By 2030, Australia's supermarket industry will look better in terms of efficiency and productivity, however, it will also be more concentrated, offering less alternatives for consumers and suppliers.</p>
+      </div>
+    </div>
 
-    <h3>2.3 Downside Scenario</h3>
-    <p>In the downside scenario, the risks that are outlined within this thesis will materialise without adequate policy response. To begin, AI will completely engulf the duopoly only. Coles and Woolworths use of AI will lock out the remaining competition, independent grocers will struggle and fizzle out of the market entirely. Similarly, there will be significant job losses, routine roles are automated faster than reskilling can keep up, leaving behind a trail of redundancies. The social cost of this displacement will affect disproportionately as lower class income workers are less equipped to adapt.</p>
-    <p>Moreover, algorithmic pricing can become exploitative. Consumers can be charged differently based on their personal data. This can also hurt smaller suppliers like farmers and producers, as there will be far less competition among retailers which in turn, leads to suppliers having less bargaining power. Implications of AI will be quick and evident in comparison to regulations. By the time regulations arrive, the market will be too concentrated to reverse. The promise of AI will cause a rift in the industry - a double edged sword, it has the capacity to reshape the industry but at what cost?</p>
+    <div class="accordion">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        2.3 Downside Scenario <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        <p>In the downside scenario, the risks that are outlined within this thesis will materialise without adequate policy response. To begin, AI will completely engulf the duopoly only. Coles and Woolworths use of AI will lock out the remaining competition, independent grocers will struggle and fizzle out of the market entirely. Similarly, there will be significant job losses, routine roles are automated faster than reskilling can keep up, leaving behind a trail of redundancies. The social cost of this displacement will affect disproportionately as lower class income workers are less equipped to adapt.</p>
+        <p>Moreover, algorithmic pricing can become exploitative. Consumers can be charged differently based on their personal data. This can also hurt smaller suppliers like farmers and producers, as there will be far less competition among retailers which in turn, leads to suppliers having less bargaining power. Implications of AI will be quick and evident in comparison to regulations. By the time regulations arrive, the market will be too concentrated to reverse. The promise of AI will cause a rift in the industry - a double edged sword, it has the capacity to reshape the industry but at what cost?</p>
+      </div>
+    </div>
+
+    <script>
+      function toggleAccordion(header) {
+        const body = header.nextElementSibling;
+        const isOpen = body.classList.contains('open');
+        document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+        document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+        if (!isOpen) {
+          body.classList.add('open');
+          header.classList.add('active');
+        }
+      }
+    </script>
   </section>
 
   <!-- SECTION 3: POLICY PLAYBOOK -->
