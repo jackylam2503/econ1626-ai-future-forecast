@@ -344,6 +344,53 @@
     }
 
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    /* ── LIMITATION TABS ── */
+    .limitation-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .limit-tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 0.75rem 0.5rem;
+      background: #ffffff;
+      border: none;
+      border-radius: 4px;
+      color: #000000;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-family: var(--body-font);
+    }
+
+    .limit-tab:hover { background: #f06060; color: #ffffff; }
+    .limit-tab.active { background: #f06060; color: #ffffff; }
+
+    .limitation-display {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid #f06060;
+      border-radius: 4px;
+      padding: 1.5rem 1.75rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .limitation-display p {
+      color: #c8c8c0;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -518,6 +565,48 @@
     </script>
 
     <h3>4.4 Limitations & Uncertainty</h3>
+    <p>There are limitations and uncertainties that need to be addressed in this forecast.</p>
+    <div class="limitation-tabs">
+      <button class="limit-tab" onclick="selectLimit(this, 0)">Limitation 1</button>
+      <button class="limit-tab" onclick="selectLimit(this, 1)">Limitation 2</button>
+      <button class="limit-tab" onclick="selectLimit(this, 2)">Limitation 3</button>
+      <button class="limit-tab" onclick="selectLimit(this, 3)">Limitation 4</button>
+    </div>
+    <div class="limitation-display">
+      <p id="limitation-text"></p>
+    </div>
+    <script>
+      const limitations = [
+        "Most of the data sourced is from 2024-2025, therefore, projections to 2030 involve a lot of uncertainty especially seeing how exponential the growth of AI has and can be.",
+        "The Australian supermarket specific AI data is limited, therefore evidence draws on global examples like Walmart, which is similar, but may not translate directly.",
+        "Sudden regulatory changes have the capacity to shift the trajectories significantly in either direction.",
+        "Consumer behaviour is difficult to predict, there could be issues with trust, privacy concerns, etc that may slow down adoption."
+      ];
+
+      let limitInterval = null;
+
+      function typeLimit(text) {
+        const el = document.getElementById('limitation-text');
+        el.innerHTML = '';
+        let i = 0;
+        if (limitInterval) clearInterval(limitInterval);
+        limitInterval = setInterval(() => {
+          if (i < text.length) {
+            el.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
+            i++;
+          } else {
+            el.innerHTML = text;
+            clearInterval(limitInterval);
+          }
+        }, 18);
+      }
+
+      function selectLimit(el, index) {
+        document.querySelectorAll('.limit-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        typeLimit(limitations[index]);
+      }
+    </script>
   </section>
 
   <!-- SECTION 5: REFERENCES -->
