@@ -435,6 +435,71 @@
 
     <h3>1.3 Operations & Supply Chain Efficiency</h3>
     <p>AI can now optimise everything from logistics to the supply chain. It can improve efficiency within operations in ways such as; improving forecasting accuracy, inventory management and eliminating unnecessary labour. The Financial impact that AI has on global retail is on a steep incline. <a href="https://www.grandviewresearch.com/industry-analysis/ai-retail-market-report" target="_blank">Global retail AI is growing from $11 billion in 2024 to a predicted $40 billion by 2030. That is a 23% annual growth which is a growth faster than any other business category.</a> This shows that the sentiment of AI within the markets and investors is strong and AI development is being rewarded.</p>
+   <div class="chart-container">
+  <div class="chart-title">Global Retail AI Market Growth</div>
+  <div class="chart-subtitle">USD Billions · 2024–2030 · Source: Grand View Research (2024)</div>
+  <div class="bars" id="bars"></div>
+  <div class="axis-line"></div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#c8f060"></div>Projected</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8aab30"></div>Actual (2024)</div>
+  </div>
+  <div class="tooltip" id="tooltip">Hover over a bar to see details</div>
+</div>
+
+<script>
+  const data = [
+    { year: '2024', value: 11, actual: true },
+    { year: '2025', value: 13.5, actual: false },
+    { year: '2026', value: 16.6, actual: false },
+    { year: '2027', value: 20.4, actual: false },
+    { year: '2028', value: 25.1, actual: false },
+    { year: '2029', value: 30.9, actual: false },
+    { year: '2030', value: 40, actual: false },
+  ];
+
+  const maxVal = 40;
+  const barsEl = document.getElementById('bars');
+  const tooltip = document.getElementById('tooltip');
+
+  data.forEach(d => {
+    const heightPct = (d.value / maxVal) * 100;
+    const color = d.actual ? '#8aab30' : '#c8f060';
+    const valueColor = d.actual ? '#8aab30' : '#c8f060';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = heightPct + '%';
+    bar.style.background = color;
+
+    const valLabel = document.createElement('span');
+    valLabel.className = 'bar-value';
+    valLabel.style.color = valueColor;
+    valLabel.textContent = '$' + d.value + 'B';
+    bar.appendChild(valLabel);
+
+    bar.addEventListener('mouseenter', () => {
+      const growth = d.actual ? '' : ` (+${((d.value - 11) / 11 * 100).toFixed(0)}% from 2024)`;
+      tooltip.innerHTML = `<strong>${d.year}</strong> — Global Retail AI Market: <strong>$${d.value}B USD</strong>${growth}${d.actual ? ' <span style="color:#888880">(baseline)</span>' : ''}`;
+    });
+
+    bar.addEventListener('mouseleave', () => {
+      tooltip.innerHTML = 'Hover over a bar to see details';
+    });
+
+    const wrap2 = document.createElement('div');
+    const label = document.createElement('div');
+    label.className = 'bar-label';
+    label.textContent = d.year;
+
+    wrap.appendChild(bar);
+    wrap.appendChild(label);
+    barsEl.appendChild(wrap);
+  });
+</script>
     <p>Moreover, demand forecasting plays a big role in business operations and AI can work to improve this system. <a href="https://biztechmagazine.com/article/2024/02/retailers-forecast-demand-ai-and-data-analytics" target="_blank">According to a study AI-driven forecasting reduces prediction errors by 20-50% which can translate to 5-10% lower warehousing costs, up to 65% reduction in lost sales from stockouts, and 25-40% improvement in admin costs.</a> All these reductions may look marginal, but at a scale, cost savings can be accumulated, and reinvested into further areas.</p>
     <p>Walmart is a good example of how AI deployed within the supply chain can improve optimisation and reduce costs. When they rolled out their AI, they documented a <a href="https://www.code-brew.com/ai-in-supply-chain-management/" target="_blank">16% reduction in stockouts</a> and improved shelf fill rates. Additionally they also <a href="https://corporate.walmart.com/news/2024/03/14/walmart-commerce-technologies-launches-ai-powered-logistics-product" target="_blank">eliminated 30 million unnecessary trucking miles annually</a> which shows a significant margin improvement and sustainability. These efficiency gains compound over time, larger retailers like Coles and Woolworths who have the capacity to invest in AI infrastructure early, will accumulate cost advantages that smaller supermarkets cannot match.</p>
   
@@ -490,7 +555,6 @@
     <p>The policy recommendation is mandatory algorithmic transparency. Large retailers must be required to disclose how AI influences their pricing decisions. This ensures that regulators are able to identify exploitative behaviours. Additionally, the government should also consider subsidising AI tool access so that independent grocers are able to enter easier to prevent further concentration.</p>
 
     <h3>3.2 Labour & Workforce Transition</h3>
-    <p><h3>3.2 Labour & Workforce Transition</h3>
     <p>The displacement of routine labour is a major concern regarding adoption of AI. AI will displace routine roles faster than the market can naturally absorb them. Without intervention the social cost falls entirely on individuals. Therefore, the recommendation is two approaches that tackle this issue. Firstly, the government should fund accessible reskilling programs specifically targeting potential displaced supermarket workers, allowing those individuals to equip themselves with the new skills to take on other roles. Secondly, there should be an industrial obligation for large retailers, Coles and Woolworths, to contribute to workforce transition funds. These recommendations come as a trade off, mandatory obligations will add cost to retailers and may slow down adoption. However, weighing out the alternative of mass redundancies among Australia's lowest income workers, the trade off carries far greater long term economic and social costs.</p></p>
 
     <h3>3.3 Algorithmic Pricing & Data Governance</h3>
