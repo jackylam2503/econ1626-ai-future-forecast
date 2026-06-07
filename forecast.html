@@ -491,6 +491,74 @@
     }
 
     .chart-tooltip strong { color: var(--accent); }
+
+    /* ── SCENARIO LINE CHART ── */
+    .chart-container2 {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .chart-title2 {
+      font-family: var(--heading-font);
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .chart-subtitle2 {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .legend2 {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item2 {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .legend-item2:hover { opacity: 0.7; }
+
+    .legend-line {
+      width: 20px;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .chart-tooltip2 {
+      background: #1a1a18;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.8rem;
+      color: #c8c8c0;
+      margin-top: 1rem;
+      min-height: 2rem;
+    }
+
+    .chart-tooltip2 strong { color: var(--accent); }
+
+    .chart-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -631,6 +699,119 @@
       </div>
     </div>
 
+    <div class="chart-container2">
+      <div class="chart-title2">AI Impact Trajectories: Australian Supermarket Industry</div>
+      <div class="chart-subtitle2">Industry Performance Index · 2025–2030 · Click legend to toggle scenarios</div>
+      <svg id="scenario-svg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
+      <div class="legend2">
+        <div class="legend-item2" onclick="toggleLine('upside')"><div class="legend-line" style="background:#60f090"></div>↑ Upside</div>
+        <div class="legend-item2" onclick="toggleLine('baseline')"><div class="legend-line" style="background:#c8f060"></div>→ Baseline</div>
+        <div class="legend-item2" onclick="toggleLine('downside')"><div class="legend-line" style="background:#f06060"></div>↓ Downside</div>
+      </div>
+      <div class="chart-tooltip2" id="tooltip2">Hover over the lines to explore each scenario</div>
+      <p class="chart-note">Note: Index values are illustrative projections based on current adoption trends, not empirical forecasts. Trajectories reflect the directional logic of each scenario rather than precise quantitative predictions.</p>
+    </div>
+
+    <script>
+      const years = [2025, 2026, 2027, 2028, 2029, 2030];
+      const scenarios = {
+        upside:   { color: '#60f090', values: [100, 118, 140, 165, 192, 225], label: 'Upside' },
+        baseline: { color: '#c8f060', values: [100, 108, 118, 128, 136, 145], label: 'Baseline' },
+        downside: { color: '#f06060', values: [100, 97, 91, 84, 76, 68], label: 'Downside' },
+      };
+
+      const svg = document.getElementById('scenario-svg');
+      const W = 700, H = 300;
+      const padL = 55, padR = 20, padT = 30, padB = 40;
+      const chartW = W - padL - padR;
+      const chartH = H - padT - padB;
+      const minVal = 60, maxVal = 235;
+      const hidden = {};
+
+      function xPos(i) { return padL + (i / (years.length - 1)) * chartW; }
+      function yPos(v) { return padT + chartH - ((v - minVal) / (maxVal - minVal)) * chartH; }
+
+      [75, 100, 125, 150, 175, 200, 225].forEach(v => {
+        if (v < minVal || v > maxVal) return;
+        const y = yPos(v);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', padL); line.setAttribute('x2', W - padR);
+        line.setAttribute('y1', y); line.setAttribute('y2', y);
+        line.setAttribute('stroke', '#2a2a26'); line.setAttribute('stroke-width', '1');
+        svg.appendChild(line);
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', padL - 8); txt.setAttribute('y', y + 4);
+        txt.setAttribute('text-anchor', 'end'); txt.setAttribute('fill', '#888880');
+        txt.setAttribute('font-size', '10');
+        txt.textContent = v;
+        svg.appendChild(txt);
+      });
+
+      years.forEach((yr, i) => {
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', xPos(i)); txt.setAttribute('y', H - padB + 18);
+        txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('fill', '#888880');
+        txt.setAttribute('font-size', '11');
+        txt.textContent = yr;
+        svg.appendChild(txt);
+      });
+
+      const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      yLabel.setAttribute('x', 12); yLabel.setAttribute('y', H / 2);
+      yLabel.setAttribute('text-anchor', 'middle'); yLabel.setAttribute('fill', '#888880');
+      yLabel.setAttribute('font-size', '9');
+      yLabel.setAttribute('transform', `rotate(-90, 12, ${H/2})`);
+      yLabel.textContent = 'Industry Performance Index (2025 = 100)';
+      svg.appendChild(yLabel);
+
+      Object.entries(scenarios).forEach(([key, s]) => {
+        const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const d = s.values.map((v, i) => `${i === 0 ? 'M' : 'L'}${xPos(i)},${yPos(v)}`).join(' ');
+        pathEl.setAttribute('d', d);
+        pathEl.setAttribute('stroke', s.color);
+        pathEl.setAttribute('stroke-width', '2.5');
+        pathEl.setAttribute('fill', 'none');
+        pathEl.setAttribute('stroke-linejoin', 'round');
+        pathEl.setAttribute('id', `line-${key}`);
+        svg.appendChild(pathEl);
+
+        s.values.forEach((v, i) => {
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', xPos(i)); circle.setAttribute('cy', yPos(v));
+          circle.setAttribute('r', '5'); circle.setAttribute('fill', s.color);
+          circle.setAttribute('class', `dot-${key}`);
+          circle.style.cursor = 'pointer';
+          circle.addEventListener('mouseenter', () => {
+            document.getElementById('tooltip2').innerHTML =
+              `<strong>${years[i]} · ${s.label} Scenario</strong> — Index: <strong>${v}</strong>${v > 100 ? ` (+${v-100} points from 2025)` : v < 100 ? ` (${v-100} points from 2025)` : ' (starting point)'}`;
+          });
+          circle.addEventListener('mouseleave', () => {
+            document.getElementById('tooltip2').innerHTML = 'Hover over the lines to explore each scenario';
+          });
+          svg.appendChild(circle);
+        });
+
+        const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const lastI = s.values.length - 1;
+        endLabel.setAttribute('x', xPos(lastI) + 6);
+        endLabel.setAttribute('y', yPos(s.values[lastI]) + 4);
+        endLabel.setAttribute('fill', s.color);
+        endLabel.setAttribute('font-size', '10');
+        endLabel.setAttribute('font-weight', 'bold');
+        endLabel.setAttribute('id', `label-${key}`);
+        endLabel.textContent = s.label;
+        svg.appendChild(endLabel);
+      });
+
+      function toggleLine(key) {
+        hidden[key] = !hidden[key];
+        const opacity = hidden[key] ? '0.15' : '1';
+        document.getElementById(`line-${key}`).style.opacity = opacity;
+        document.getElementById(`label-${key}`).style.opacity = opacity;
+        document.querySelectorAll(`.dot-${key}`).forEach(d => d.style.opacity = opacity);
+      }
+    </script>
+    
     <h3>2.1 Upside Scenario</h3>
     <p>Within an upside scenario, AI adoption across Australia's supermarket industry is rapid, well managed, and broadly accessible. It will begin with Coles and Woolworths leading the charge, but it will also be widely affordable to smaller independent grocers to minimise the concentration of the market. Areas like productivity are improved, forecasting becomes more accurate with fewer errors, the supply chain tightens, and waste is significantly reduced. In light of these savings, it can reflect onto consumers through lower prices and improving their shopping experience especially at a time when the cost of living remains a key concern for many Australians.</p>
     <p>Furthermore, the government and industry will move together. This will mean proactive investment into reskilling programs so that workers displaced by AI can transition into higher value positions. The ACCC will also be actively monitoring the algorithms, keeping the competition alive. By 2030, there will be a full transformation of the industry, depicting how the supermarket sector can deliver more efficiency and responsiveness when policy can keep pace with the growth of technology.</p>
