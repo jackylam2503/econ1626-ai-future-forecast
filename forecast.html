@@ -620,6 +620,25 @@
     .accordion-body p:last-child {
       margin-bottom: 0;
     }
+
+    /* ── THESIS TYPEWRITER ── */
+    .thesis-box p {
+      opacity: 0;
+    }
+
+    .thesis-box p.typed-done {
+      opacity: 1;
+    }
+
+    .thesis-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.7s infinite;
+    }
   </style>
 </head>
 <body>
@@ -1098,5 +1117,43 @@
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 
+  <script>
+      window.addEventListener('load', function() {
+        const paragraphs = document.querySelectorAll('.thesis-box p');
+        let paraIndex = 0;
+
+        function typeParagraph(para, text, callback) {
+          para.style.opacity = 1;
+          para.innerHTML = '';
+          let i = 0;
+          const cursor = document.createElement('span');
+          cursor.className = 'thesis-cursor';
+          para.appendChild(cursor);
+
+          const interval = setInterval(() => {
+            if (i < text.length) {
+              para.insertBefore(document.createTextNode(text[i]), cursor);
+              i++;
+            } else {
+              clearInterval(interval);
+              cursor.remove();
+              para.classList.add('typed-done');
+              if (callback) callback();
+            }
+          }, 4);
+        }
+
+        function typeNext() {
+          if (paraIndex < paragraphs.length) {
+            const para = paragraphs[paraIndex];
+            const text = para.textContent;
+            paraIndex++;
+            typeParagraph(para, text, typeNext);
+          }
+        }
+
+        typeNext();
+      });
+    </script>
 </body>
 </html>
