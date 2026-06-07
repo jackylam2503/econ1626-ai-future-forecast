@@ -1276,12 +1276,15 @@
           { x:240, y:135, label:['Checkout', 'AI'] }
         ];
 
-        nodes.forEach((n, i) => {
+       nodes.forEach((n, i) => {
           const pulse = el('circle', { cx:n.x, cy:n.y, r:7, fill:'none', stroke:'#c8f060', 'stroke-width':0.8, opacity:0.3 });
           pulse.style.animation = `ambientGlow ${1.5 + i*0.25}s ease-in-out infinite`;
           aiGroup.appendChild(pulse);
           aiGroup.appendChild(el('circle', { cx:n.x, cy:n.y, r:4, fill:'#1a2e0a', stroke:'#c8f060', 'stroke-width':1 }));
           aiGroup.appendChild(el('circle', { cx:n.x, cy:n.y, r:1.5, fill:'#c8f060' }));
+          n.label.forEach((line, li) => {
+            aiGroup.appendChild(txt(line, n.x, n.y + 16 + li*9, 7, '#c8f060'));
+          });
         });
 
         const flowLines = [
