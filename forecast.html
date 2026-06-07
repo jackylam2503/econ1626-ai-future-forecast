@@ -284,6 +284,66 @@
       margin: 0;
       line-height: 1.65;
     }
+    /* ── ASSUMPTIONS TABS ── */
+    .assumption-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .assumption-tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 0.75rem 0.5rem;
+      background: #ffffff;
+      border: none;
+      border-radius: 4px;
+      color: #000000;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-family: var(--body-font);
+    }
+
+    .assumption-tab:hover { background: #f06060; color: #ffffff; }
+
+    .assumption-tab.active { background: #f06060; color: #ffffff; }
+
+    .assumption-display {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid #f06060;
+      border-radius: 4px;
+      padding: 1.5rem 1.75rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .assumption-display p {
+      color: #c8c8c0;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: #f06060;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   </style>
 </head>
 <body>
@@ -413,6 +473,49 @@
 </div>
     
     <h3>4.3 Assumptions</h3>
+    <div class="assumption-tabs">
+      <button class="assumption-tab" onclick="selectTab(this, 0)">Assumption 1</button>
+      <button class="assumption-tab" onclick="selectTab(this, 1)">Assumption 2</button>
+      <button class="assumption-tab" onclick="selectTab(this, 2)">Assumption 3</button>
+      <button class="assumption-tab" onclick="selectTab(this, 3)">Assumption 4</button>
+      <button class="assumption-tab" onclick="selectTab(this, 4)">The Horizon</button>
+    </div>
+    <div class="assumption-display">
+      <p id="assumption-text"></p>
+    </div>
+    <script>
+      const assumptions = [
+        "AI adoption will continue in Australian supermarkets at its current pace through to 2030.",
+        "Coles and Woolworths will maintain their market dominance which is highly likely.",
+        "There will be no major economic recessions that will derail AI investment.",
+        "The regulatory environment's evolution paces gradually with AI adoption rather than a sudden major intervention.",
+        "The 2027-2030 horizon was selected as it is near enough to be grounded in current adoption trends and emerging technologies, but also far enough so that there is room for real change in the industry."
+      ];
+
+      let typeInterval = null;
+
+      function typeText(text) {
+        const el = document.getElementById('assumption-text');
+        el.innerHTML = '';
+        let i = 0;
+        if (typeInterval) clearInterval(typeInterval);
+        typeInterval = setInterval(() => {
+          if (i < text.length) {
+            el.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
+            i++;
+          } else {
+            el.innerHTML = text;
+            clearInterval(typeInterval);
+          }
+        }, 18);
+      }
+
+      function selectTab(el, index) {
+        document.querySelectorAll('.assumption-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        typeText(assumptions[index]);
+      }
+    </script>
 
     <h3>4.4 Limitations & Uncertainty</h3>
   </section>
