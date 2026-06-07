@@ -216,6 +216,74 @@
       opacity: 1;
       transform: none;
     }
+    /* ── CLAUDE CARD ── */
+    .claude-card {
+      width: 100%;
+      max-width: 420px;
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
+      margin: 1.5rem 0;
+    }
+
+    .claude-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    .claude-card.flipped .claude-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .claude-card-front,
+    .claude-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .claude-card-front {
+      background: #cc785c;
+      align-items: center;
+    }
+
+    .claude-logo {
+      font-family: var(--heading-font);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .claude-hint {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.6);
+      margin: 0.5rem 0 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .claude-card-back {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transform: rotateY(180deg);
+    }
+
+    .claude-card-back p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.65;
+    }
   </style>
 </head>
 <body>
@@ -332,7 +400,18 @@
     <p>This thesis draws from a diverse range of credible sources to ensure that the analysis is grounded with evidence. Where relevant, market data was sourced from industry reports including Statista and Grand View Research. Government inquiries (ACCC's supermarket inquiry), was used to provide content for the Australian market. There were also corporate case studies, primarily, from Walmart to illustrate real world AI deployment. Further workforce research from McKinsey and Jobs and Skills Australia helped illustrate the labour displacement. News publications/magazines were also used like Inside Retail, Sydney Morning Herald, and BizTech Magazine was incorporated to capture the current developments of AI adoption within the retail sector. Likewise, wherever possible, Australian specific data was sourced to ensure relevance to the national context.</p>
 
     <h3>4.2 AI Tooling Disclosure</h3>
-
+<div class="claude-card" onclick="this.classList.toggle('flipped')">
+  <div class="claude-card-inner">
+    <div class="claude-card-front">
+      <span class="claude-logo">Claude</span>
+      <p class="claude-hint">click to reveal</p>
+    </div>
+    <div class="claude-card-back">
+      <p>Claude was used throughout this assessment to assist with research, content, drafting and the development of the HTML website. All writing decisions, content and arguments were written and finalised by the author, AI was a tool to assist this process.</p>
+    </div>
+  </div>
+</div>
+    
     <h3>4.3 Assumptions</h3>
 
     <h3>4.4 Limitations & Uncertainty</h3>
