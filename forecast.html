@@ -647,7 +647,7 @@
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
-      width: 300px;
+      width: 500px;
       z-index: 50;
       opacity: 1;
     }
@@ -1231,13 +1231,13 @@
         svg.appendChild(el('rect', { x:8, y:8, width:284, height:204, rx:3, fill:'#111110', stroke:'#1a1a18', 'stroke-width':1 }));
 
         const areas = [
-          { x:8, y:8, w:80, h:95, color:'#131a11' },
-          { x:88, y:8, w:80, h:95, color:'#111318' },
-          { x:168, y:8, w:70, h:95, color:'#181311' },
-          { x:238, y:8, w:54, h:95, color:'#131118' },
-          { x:8, y:103, w:180, h:70, color:'#131313' },
-          { x:188, y:103, w:104, h:70, color:'#181311' },
-          { x:8, y:173, w:284, h:39, color:'#111110' },
+          { x:8, y:8, w:80, h:95, color:'#1e2e1a' },
+          { x:88, y:8, w:80, h:95, color:'#1a1e24' },
+          { x:168, y:8, w:70, h:95, color:'#241e1a' },
+          { x:238, y:8, w:54, h:95, color:'#1e1a24' },
+          { x:8, y:103, w:180, h:70, color:'#1e1e1e' },
+          { x:188, y:103, w:104, h:70, color:'#241e1a' },
+          { x:8, y:173, w:284, h:39, color:'#1a1a1a' },
         ];
 
         areas.forEach(a => svg.appendChild(el('rect', { x:a.x, y:a.y, width:a.w, height:a.h, fill:a.color, stroke:'#1a1a18', 'stroke-width':0.5 })));
