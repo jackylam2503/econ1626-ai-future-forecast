@@ -639,6 +639,53 @@
       vertical-align: middle;
       animation: blink 0.7s infinite;
     }
+
+    /* ── AMBIENT FLOOR PLAN ── */
+    .ambient-store {
+      display: none;
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      z-index: 50;
+      opacity: 0.7;
+    }
+
+    @media (min-width: 1200px) {
+      .ambient-store { display: block; }
+    }
+
+    .ambient-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3a3a36;
+      margin-bottom: 0.4rem;
+      text-align: center;
+      font-family: var(--body-font);
+    }
+
+    .ambient-phase {
+      font-size: 0.65rem;
+      color: #3a3a36;
+      text-align: center;
+      margin-top: 0.4rem;
+      font-family: var(--body-font);
+      transition: color 0.5s;
+    }
+
+    .ambient-phase.ai { color: #8aab30; }
+
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.9; }
+    }
+
+    @keyframes ambientFlow {
+      0% { stroke-dashoffset: 200; opacity: 0.8; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -1154,6 +1201,128 @@
 
         typeNext();
       });
+    </script>
+
+  <!-- AMBIENT STORE VISUAL -->
+    <div class="ambient-store">
+      <div class="ambient-label">Live Transformation</div>
+      <svg id="ambient-svg" viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;background:#0a0a08;border:1px solid #1a1a18;"></svg>
+      <div class="ambient-phase" id="ambient-phase">Traditional</div>
+    </div>
+
+    <script>
+      (function() {
+        const svg = document.getElementById('ambient-svg');
+        const NS = 'http://www.w3.org/2000/svg';
+
+        function el(tag, attrs) {
+          const e = document.createElementNS(NS, tag);
+          Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k, v));
+          return e;
+        }
+
+        function txt(content, x, y, size, color) {
+          const t = el('text', { x, y, 'font-size': size, fill: color, 'text-anchor': 'middle', 'font-family': 'sans-serif' });
+          t.textContent = content;
+          return t;
+        }
+
+        svg.appendChild(el('rect', { x:0, y:0, width:300, height:220, fill:'#0a0a08' }));
+        svg.appendChild(el('rect', { x:8, y:8, width:284, height:204, rx:3, fill:'#111110', stroke:'#1a1a18', 'stroke-width':1 }));
+
+        const areas = [
+          { x:8, y:8, w:80, h:95, color:'#131a11' },
+          { x:88, y:8, w:80, h:95, color:'#111318' },
+          { x:168, y:8, w:70, h:95, color:'#181311' },
+          { x:238, y:8, w:54, h:95, color:'#131118' },
+          { x:8, y:103, w:180, h:70, color:'#131313' },
+          { x:188, y:103, w:104, h:70, color:'#181311' },
+          { x:8, y:173, w:284, h:39, color:'#111110' },
+        ];
+
+        areas.forEach(a => svg.appendChild(el('rect', { x:a.x, y:a.y, width:a.w, height:a.h, fill:a.color, stroke:'#1a1a18', 'stroke-width':0.5 })));
+
+        svg.appendChild(txt('Produce', 48, 30, 7, '#2a2a26'));
+        svg.appendChild(txt('Dairy', 128, 30, 7, '#2a2a26'));
+        svg.appendChild(txt('Dry Goods', 203, 30, 7, '#2a2a26'));
+        svg.appendChild(txt('Warehouse', 265, 30, 7, '#2a2a26'));
+        svg.appendChild(txt('Aisles', 98, 125, 7, '#2a2a26'));
+        svg.appendChild(txt('Checkout', 240, 125, 7, '#2a2a26'));
+        svg.appendChild(txt('ENTRANCE', 150, 195, 7, '#2a2a26'));
+
+        const staffGroup = el('g', { id:'amb-staff' });
+
+        function staffIcon(x, y) {
+          const g = el('g', { transform:`translate(${x},${y})` });
+          g.appendChild(el('circle', { cx:0, cy:0, r:3, fill:'#4a4a46' }));
+          g.appendChild(el('line', { x1:0, y1:3, x2:0, y2:10, stroke:'#4a4a46', 'stroke-width':1.5 }));
+          g.appendChild(el('line', { x1:-3, y1:6, x2:3, y2:6, stroke:'#4a4a46', 'stroke-width':1.5 }));
+          g.appendChild(el('line', { x1:0, y1:10, x2:-3, y2:16, stroke:'#4a4a46', 'stroke-width':1.5 }));
+          g.appendChild(el('line', { x1:0, y1:10, x2:3, y2:16, stroke:'#4a4a46', 'stroke-width':1.5 }));
+          return g;
+        }
+
+        [[45,65],[120,55],[195,50],[258,60],[80,140],[160,130],[240,140]].forEach(p => staffGroup.appendChild(staffIcon(p[0], p[1])));
+        svg.appendChild(staffGroup);
+
+        const aiGroup = el('g', { id:'amb-ai', opacity:0 });
+
+        const nodes = [
+          { x:48, y:60 }, { x:128, y:50 }, { x:200, y:45 },
+          { x:262, y:55 }, { x:95, y:135 }, { x:240, y:135 }
+        ];
+
+        nodes.forEach((n, i) => {
+          const pulse = el('circle', { cx:n.x, cy:n.y, r:7, fill:'none', stroke:'#c8f060', 'stroke-width':0.8, opacity:0.3 });
+          pulse.style.animation = `ambientGlow ${1.5 + i*0.25}s ease-in-out infinite`;
+          aiGroup.appendChild(pulse);
+          aiGroup.appendChild(el('circle', { cx:n.x, cy:n.y, r:4, fill:'#1a2e0a', stroke:'#c8f060', 'stroke-width':1 }));
+          aiGroup.appendChild(el('circle', { cx:n.x, cy:n.y, r:1.5, fill:'#c8f060' }));
+        });
+
+        const flowLines = [
+          [48,60,128,50],[128,50,200,45],[200,45,262,55],
+          [48,60,95,135],[200,45,240,135],[95,135,240,135]
+        ];
+
+        flowLines.forEach((f, i) => {
+          const line = el('line', {
+            x1:f[0], y1:f[1], x2:f[2], y2:f[3],
+            stroke:'#c8f060', 'stroke-width':0.8,
+            'stroke-dasharray':'4 3', opacity:0
+          });
+          line.style.animation = `ambientFlow ${2 + i*0.2}s linear infinite`;
+          line.style.animationDelay = `${i*0.3}s`;
+          aiGroup.appendChild(line);
+        });
+
+        svg.appendChild(aiGroup);
+
+        let phase = 0;
+        function setPhase(p) {
+          phase = p;
+          const staffG = document.getElementById('amb-staff');
+          const aiG = document.getElementById('amb-ai');
+          const phaseEl = document.getElementById('ambient-phase');
+          if (p === 0) {
+            staffG.style.transition = 'opacity 1.5s';
+            staffG.style.opacity = 1;
+            aiG.style.transition = 'opacity 1.5s';
+            aiG.style.opacity = 0;
+            phaseEl.textContent = 'Traditional';
+            phaseEl.classList.remove('ai');
+          } else {
+            staffG.style.transition = 'opacity 1.5s';
+            staffG.style.opacity = 0;
+            aiG.style.transition = 'opacity 1.5s';
+            aiG.style.opacity = 1;
+            phaseEl.textContent = 'AI-Powered 2030';
+            phaseEl.classList.add('ai');
+          }
+        }
+
+        setInterval(() => setPhase(phase === 0 ? 1 : 0), 3500);
+      })();
     </script>
 </body>
 </html>
