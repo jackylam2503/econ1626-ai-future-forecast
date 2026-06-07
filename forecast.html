@@ -1268,8 +1268,12 @@
         const aiGroup = el('g', { id:'amb-ai', opacity:0 });
 
         const nodes = [
-          { x:48, y:60 }, { x:128, y:50 }, { x:200, y:45 },
-          { x:262, y:55 }, { x:95, y:135 }, { x:240, y:135 }
+          { x:48, y:60, label:['Inventory', 'AI'] },
+          { x:128, y:50, label:['Cold Chain', 'Sensor'] },
+          { x:200, y:45, label:['Demand', 'Forecast'] },
+          { x:262, y:55, label:['Logistics', 'AI'] },
+          { x:95, y:135, label:['Shelf', 'Cam'] },
+          { x:240, y:135, label:['Checkout', 'AI'] }
         ];
 
         nodes.forEach((n, i) => {
